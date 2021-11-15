@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  lavanderia_postgres:
+    image: postgres:alpine
+    container_name: lavanderia_postgres
+    restart: always
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    profiles: ["dev"]
+
+  lavanderia_postgres_test:
+    image: postgres:alpine
+    container_name: lavanderia_postgres_test
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    profiles: ["test"]
+
+volumes:
+  postgres_data:
